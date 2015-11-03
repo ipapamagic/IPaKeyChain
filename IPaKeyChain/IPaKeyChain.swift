@@ -91,7 +91,57 @@ public enum IPaSecAttrSynchronizable {
         self = Any
     }
 }
-
+public enum IPaSecAttrKeyClass : RawRepresentable {
+    case Public,Private,Symmetric
+    
+    public init?(rawValue: String) {
+        switch rawValue {
+        case String(kSecAttrKeyClassPublic):
+            self = Public
+        case String(kSecAttrKeyClassPrivate):
+            self = Private
+        case String(kSecAttrKeyClassSymmetric):
+            self = Symmetric
+        default:
+            self = Public
+        }
+    }
+    public var rawValue: String {
+        switch self {
+        case .Public:
+            return String(kSecAttrKeyClassPublic)
+        case .Private:
+            return String(kSecAttrKeyClassPrivate)
+        case .Symmetric:
+            return String(kSecAttrKeyClassSymmetric)
+        }
+        
+    }
+}
+public enum IPaSecAttrKeyType : RawRepresentable {
+    case RSA,EC
+    public init?(rawValue: String) {
+        switch rawValue {
+        case String(kSecAttrKeyTypeRSA):
+            self = RSA
+        case String(kSecAttrKeyTypeEC):
+            self = EC
+        default:
+            self = RSA
+        }
+    }
+    public var rawValue: String {
+        switch self {
+        case .RSA:
+            return String(kSecAttrKeyTypeRSA)
+        case .EC:
+            return String(kSecAttrKeyTypeEC)
+            
+        }
+        
+    }
+    
+}
 
 class IPaKeyChain :SequenceType{
     var keychainItemData = [String:AnyObject]()
@@ -114,7 +164,22 @@ class IPaKeyChain :SequenceType{
     func generate() -> DictionaryGenerator<String, AnyObject> {
         return keychainItemData.generate()
     }
+    init() {
+        
+    }
+    convenience init(data:[String:AnyObject]) {
+        self.init()
+        keychainItemData = data
+    }
     //MARK: KeyChain access
+    var secValueData:NSData? {
+        get {
+            return keychainItemData[String(kSecValueData)] as? NSData
+        }
+        set {
+            keychainItemData[String(kSecValueData)] = newValue
+        }
+    }
     var secReturnData:Bool {
         get {
             if let returnData = keychainItemData[String(kSecReturnData)] as? Bool {
@@ -123,18 +188,13 @@ class IPaKeyChain :SequenceType{
             return false
         }
         set {
-            if newValue {
-                keychainItemData[String(kSecReturnData)] = kCFBooleanTrue
-            }
-            else {
-                keychainItemData.removeValueForKey(String(kSecReturnData))
-            }
+            keychainItemData[String(kSecReturnData)] = newValue
         }
     }
     var secReturnAttributes:Bool {
         get {
-            if let returnData = keychainItemData[String(kSecReturnAttributes)] as? Bool {
-                return returnData
+            if let _ = keychainItemData[String(kSecReturnAttributes)] {
+                return true
             }
             return false
         }
@@ -145,6 +205,7 @@ class IPaKeyChain :SequenceType{
             else {
                 keychainItemData.removeValueForKey(String(kSecReturnAttributes))
             }
+
         }
     }
     var secReturnRef:Bool {
