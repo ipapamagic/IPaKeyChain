@@ -13,7 +13,7 @@ import Foundation
 class IPaKeyChainKey :IPaKeyChainKeyIdentity {
     override init () {
         super.init()
-        self.keychainItemData[String(kSecClass)] = String(kSecClassKey)
+        self.keychainItemData[String(kSecClass)] = kSecClassKey as NSString
     }
     /*
     kSecClassKey item attributes:

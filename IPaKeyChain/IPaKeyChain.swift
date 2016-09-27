@@ -10,131 +10,131 @@ import UIKit
 import Security
 
 public enum IPaSecMatchLimit:RawRepresentable {
-    case One,All
-    case Number(Int)
+    case one,all
+    case number(Int)
     public init?(rawValue: String) {
         switch rawValue {
         case String(kSecMatchLimitOne):
-            self = One
+            self = .one
         case String(kSecMatchLimitAll):
-            self = All
+            self = .all
         default:
-            self = One
+            self = .one
         }
     }
     public init?(rawValue: Int) {
-        self = Number(rawValue)
+        self = .number(rawValue)
     }
     public var rawValue: String {
         switch (self) {
-        case .One:
+        case .one:
             return String(kSecMatchLimitOne)
-        case .All:
+        case .all:
             return String(kSecMatchLimitAll)
-        case .Number(let value):
+        case .number(let value):
             return "\(value)"
         }
     }
 }
 
 public enum IPaSecAttrAccessible: RawRepresentable {
-    case WhenUnlocked, AfterFirstUnlock, Always, WhenUnlockedThisDeviceOnly, AfterFirstUnlockThisDeviceOnly, AlwaysThisDeviceOnly, WhenPasscodeSetThisDeviceOnly
+    case whenUnlocked, afterFirstUnlock, always, whenUnlockedThisDeviceOnly, afterFirstUnlockThisDeviceOnly, alwaysThisDeviceOnly, whenPasscodeSetThisDeviceOnly
     
     public init?(rawValue: String) {
         switch rawValue {
         case String(kSecAttrAccessibleWhenUnlocked):
-            self = WhenUnlocked
+            self = .whenUnlocked
         case String(kSecAttrAccessibleAfterFirstUnlock):
-            self = AfterFirstUnlock
+            self = .afterFirstUnlock
         case String(kSecAttrAccessibleAlways):
-            self = Always
+            self = .always
         case String(kSecAttrAccessibleWhenUnlockedThisDeviceOnly):
-            self = WhenUnlockedThisDeviceOnly
+            self = .whenUnlockedThisDeviceOnly
         case String(kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly):
-            self = AfterFirstUnlockThisDeviceOnly
+            self = .afterFirstUnlockThisDeviceOnly
         case String(kSecAttrAccessibleAlwaysThisDeviceOnly):
-            self = AlwaysThisDeviceOnly
+            self = .alwaysThisDeviceOnly
         case String(kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly):
-            self = WhenPasscodeSetThisDeviceOnly
+            self = .whenPasscodeSetThisDeviceOnly
         default:
-            self = WhenUnlocked
+            self = .whenUnlocked
         }
     }
     
     public var rawValue: String {
         switch self {
-        case .WhenUnlocked:
+        case .whenUnlocked:
             return String(kSecAttrAccessibleWhenUnlocked)
-        case .AfterFirstUnlock:
+        case .afterFirstUnlock:
             return String(kSecAttrAccessibleAfterFirstUnlock)
-        case .Always:
+        case .always:
             return String(kSecAttrAccessibleAlways)
-        case .WhenPasscodeSetThisDeviceOnly:
+        case .whenPasscodeSetThisDeviceOnly:
             return String(kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly)
-        case .WhenUnlockedThisDeviceOnly:
+        case .whenUnlockedThisDeviceOnly:
             return String(kSecAttrAccessibleWhenUnlockedThisDeviceOnly)
-        case .AfterFirstUnlockThisDeviceOnly:
+        case .afterFirstUnlockThisDeviceOnly:
             return String(kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
-        case .AlwaysThisDeviceOnly:
+        case .alwaysThisDeviceOnly:
             return String(kSecAttrAccessibleAlwaysThisDeviceOnly)
         }
     }
 }
 public enum IPaSecAttrSynchronizable {
-    case Boolean(Bool)
-    case Any
+    case boolean(Bool)
+    case any
 
     public init?(rawValue: Bool) {
-        self = Boolean(rawValue)
+        self = .boolean(rawValue)
     }
     public init?() {
-        self = Any
+        self = .any
     }
 }
 public enum IPaSecAttrKeyClass : RawRepresentable {
-    case Public,Private,Symmetric
+    case `public`,`private`,symmetric
     
     public init?(rawValue: String) {
         switch rawValue {
         case String(kSecAttrKeyClassPublic):
-            self = Public
+            self = .`public`
         case String(kSecAttrKeyClassPrivate):
-            self = Private
+            self = .`private`
         case String(kSecAttrKeyClassSymmetric):
-            self = Symmetric
+            self = .symmetric
         default:
-            self = Public
+            self = .`public`
         }
     }
     public var rawValue: String {
         switch self {
-        case .Public:
+        case .public:
             return String(kSecAttrKeyClassPublic)
-        case .Private:
+        case .private:
             return String(kSecAttrKeyClassPrivate)
-        case .Symmetric:
+        case .symmetric:
             return String(kSecAttrKeyClassSymmetric)
         }
         
     }
 }
 public enum IPaSecAttrKeyType : RawRepresentable {
-    case RSA,EC
+    case rsa,ec
     public init?(rawValue: String) {
         switch rawValue {
         case String(kSecAttrKeyTypeRSA):
-            self = RSA
+            self = .rsa
         case String(kSecAttrKeyTypeEC):
-            self = EC
+            self = .ec
         default:
-            self = RSA
+            self = .rsa
         }
     }
     public var rawValue: String {
         switch self {
-        case .RSA:
+        case .rsa:
             return String(kSecAttrKeyTypeRSA)
-        case .EC:
+        case .ec:
             return String(kSecAttrKeyTypeEC)
             
         }
@@ -143,11 +143,11 @@ public enum IPaSecAttrKeyType : RawRepresentable {
     
 }
 
-class IPaKeyChain :SequenceType{
-    var keychainItemData = [String:AnyObject]()
+class IPaKeyChain :Sequence{
+    var keychainItemData = [String:Any]()
 
     //MARK: SequenceType
-    subscript(key : String?) -> AnyObject? {
+    subscript(key : String?) -> Any? {
         get {
             if key != nil {
                 return self.keychainItemData[key!];
@@ -161,23 +161,23 @@ class IPaKeyChain :SequenceType{
         }
     }
     
-    func generate() -> DictionaryGenerator<String, AnyObject> {
-        return keychainItemData.generate()
+    func makeIterator() ->  DictionaryIterator<String, Any> {
+        return keychainItemData.makeIterator()
     }
     init() {
         
     }
-    convenience init(data:[String:AnyObject]) {
+    convenience init(data:[String:Any]) {
         self.init()
         keychainItemData = data
     }
     //MARK: KeyChain access
-    var secValueData:NSData? {
+    var secValueData:Data? {
         get {
-            return keychainItemData[String(kSecValueData)] as? NSData
+            return keychainItemData[String(kSecValueData)] as? Data
         }
         set {
-            keychainItemData[String(kSecValueData)] = newValue
+            keychainItemData[String(kSecValueData)] = newValue as Any?
         }
     }
     var secReturnData:Bool {
@@ -188,7 +188,7 @@ class IPaKeyChain :SequenceType{
             return false
         }
         set {
-            keychainItemData[String(kSecReturnData)] = newValue
+            keychainItemData[String(kSecReturnData)] = newValue as Any?
         }
     }
     var secReturnAttributes:Bool {
@@ -203,7 +203,7 @@ class IPaKeyChain :SequenceType{
                 keychainItemData[String(kSecReturnAttributes)] = kCFBooleanTrue
             }
             else {
-                keychainItemData.removeValueForKey(String(kSecReturnAttributes))
+                keychainItemData.removeValue(forKey: String(kSecReturnAttributes))
             }
 
         }
@@ -220,7 +220,7 @@ class IPaKeyChain :SequenceType{
                 keychainItemData[String(kSecReturnRef)] = kCFBooleanTrue
             }
             else {
-                keychainItemData.removeValueForKey(String(kSecReturnRef))
+                keychainItemData.removeValue(forKey: String(kSecReturnRef))
             }
         }
     }
@@ -236,7 +236,7 @@ class IPaKeyChain :SequenceType{
                 keychainItemData[String(kSecReturnPersistentRef)] = kCFBooleanTrue
             }
             else {
-                keychainItemData.removeValueForKey(String(kSecReturnPersistentRef))
+                keychainItemData.removeValue(forKey: String(kSecReturnPersistentRef))
             }
         }
     }
@@ -248,45 +248,46 @@ class IPaKeyChain :SequenceType{
             else if let limit = keychainItemData[String(kSecMatchLimit)] as? Int {
                 return IPaSecMatchLimit(rawValue: limit)!
             }
-            return .One
+            return .one
         }
         set {
             switch (newValue)
             {
-            case .One,.All:
-                keychainItemData[String(kSecMatchLimit)] = newValue.rawValue
-            case .Number(let value):
-                keychainItemData[String(kSecMatchLimit)] = value
+            case .one,.all:
+                keychainItemData[String(kSecMatchLimit)] = newValue.rawValue as Any?
+            case .number(let value):
+                keychainItemData[String(kSecMatchLimit)] = value as Any?
             }
         }
     }
     //MARK: KeyChain Function
-    func secItemCopyMatching(inout result:AnyObject?) -> OSStatus {
-
-        return withUnsafeMutablePointer(&result) { SecItemCopyMatching(keychainItemData as CFDictionaryRef, UnsafeMutablePointer($0)) }
+    func secItemCopyMatching(_ result:inout AnyObject?) -> OSStatus {
+        return SecItemCopyMatching(keychainItemData as CFDictionary, &result)
+//        return withUnsafeMutablePointer(to: &result) { SecItemCopyMatching(keychainItemData as CFDictionary, $0 as? UnsafeMutablePointer<CFTypeRef?>) }
     }
-    func secItemAdd(inout result:AnyObject?) -> OSStatus {
-        
-        return withUnsafeMutablePointer(&result) { SecItemAdd(keychainItemData as CFDictionaryRef, UnsafeMutablePointer($0)) }
+    func secItemAdd(_ result:inout AnyObject?) -> OSStatus {
+        return SecItemAdd(keychainItemData as CFDictionary, &result)
+//        return withUnsafeMutablePointer(to: &result) { SecItemAdd(keychainItemData as CFDictionary, $0 as? UnsafeMutablePointer<CFTypeRef?>) }
     }
-    func secItemUpdate(attributesToUpdate:CFDictionary) -> OSStatus {
+    func secItemUpdate(_ attributesToUpdate:CFDictionary) -> OSStatus {
         
-        return SecItemUpdate(keychainItemData as CFDictionaryRef, attributesToUpdate)
+        return SecItemUpdate(keychainItemData as CFDictionary, attributesToUpdate)
     }
-    func secItemUpdate(attributesToUpdate:IPaKeyChain) -> OSStatus {
-        
-        return SecItemUpdate(keychainItemData as CFDictionaryRef, attributesToUpdate.keychainItemData)
+    func secItemUpdate(_ attributesToUpdate:IPaKeyChain) -> OSStatus {
+        var dictionary = attributesToUpdate.keychainItemData
+        dictionary.removeValue(forKey: String(kSecClass))
+        return SecItemUpdate(keychainItemData as CFDictionary, dictionary as CFDictionary)
     }
     
     func secItemDelete() -> OSStatus {
         
-        return SecItemDelete(keychainItemData as CFDictionaryRef)
+        return SecItemDelete(keychainItemData as CFDictionary)
     }
     //MARK: Common Attribute
-    var secAttrAccessControl:SecAccessControlRef? {
+    var secAttrAccessControl:SecAccessControl? {
         get {
             if let value = keychainItemData[String(kSecAttrAccessControl)] {
-                return (value as! SecAccessControlRef)
+                return (value as! SecAccessControl)
             }
             return nil
         }
@@ -294,12 +295,13 @@ class IPaKeyChain :SequenceType{
             keychainItemData[String(kSecAttrAccessControl)] = newValue
         }
     }
-    func createAccessControl(accessible:IPaSecAttrAccessible,createFlags:SecAccessControlCreateFlags) throws{
-        let accessControlError:UnsafeMutablePointer<Unmanaged<CFError>?> = nil
-        self.secAttrAccessControl = SecAccessControlCreateWithFlags(kCFAllocatorDefault, accessible.rawValue, createFlags,accessControlError)
+    func createAccessControl(_ accessible:IPaSecAttrAccessible,createFlags:SecAccessControlCreateFlags) throws{
+        let accessControlError:UnsafeMutablePointer<Unmanaged<CFError>?>? = nil
+        self.secAttrAccessControl = SecAccessControlCreateWithFlags(kCFAllocatorDefault, accessible.rawValue as CFTypeRef, createFlags,accessControlError)
         
-        if let memory = accessControlError.memory {
-            throw memory.takeRetainedValue() as NSError
+        if let memory = accessControlError?.pointee {
+            
+            throw memory.takeRetainedValue() as Error
 
         }
         
@@ -309,7 +311,7 @@ class IPaKeyChain :SequenceType{
             return keychainItemData[String(kSecAttrAccessGroup)] as? String
         }
         set {
-            keychainItemData[String(kSecAttrAccessGroup)] = newValue
+            keychainItemData[String(kSecAttrAccessGroup)] = newValue as Any?
         }
     }
     
@@ -318,7 +320,7 @@ class IPaKeyChain :SequenceType{
             return keychainItemData[String(kSecAttrLabel)] as? String
         }
         set {
-            keychainItemData[String(kSecAttrLabel)] = newValue
+            keychainItemData[String(kSecAttrLabel)] = newValue as Any?
         }
     }
     var secAttrSynchronizable:IPaSecAttrSynchronizable? {
@@ -326,22 +328,22 @@ class IPaKeyChain :SequenceType{
             if let value = keychainItemData[String(kSecAttrSynchronizable)] as? Bool {
                 return IPaSecAttrSynchronizable(rawValue: value)
             }
-            else if let string = keychainItemData[String(kSecMatchLimit)] as? String where string == String(kSecAttrSynchronizableAny) {
-                return IPaSecAttrSynchronizable.Any
+            else if let string = keychainItemData[String(kSecMatchLimit)] as? String , string == String(kSecAttrSynchronizableAny) {
+                return IPaSecAttrSynchronizable.any
             }
-            return .Boolean(false)
+            return .boolean(false)
         }
         set {
             guard let newValue = newValue else {
-                keychainItemData.removeValueForKey(String(kSecAttrSynchronizable))
+                keychainItemData.removeValue(forKey: String(kSecAttrSynchronizable))
                 return
             }
             switch (newValue)
             {
-            case .Any:
-                keychainItemData[String(kSecAttrSynchronizable)] = String(kSecAttrSynchronizableAny)
-            case .Boolean(let value):
-                keychainItemData[String(kSecAttrSynchronizable)] = value
+            case .any:
+                keychainItemData[(kSecAttrSynchronizable as String)] = kSecAttrSynchronizableAny as NSString
+            case .boolean(let value):
+                keychainItemData[String(kSecAttrSynchronizable)] = value as Any?
             }
         }
     }
@@ -362,22 +364,22 @@ class IPaKeyChain :SequenceType{
 }
 
 class IPaKeyChainPassword:IPaKeyChain {
-    var secAttrCreationDate:NSDate? {
+    var secAttrCreationDate:Date? {
         get {
-            return keychainItemData[String(kSecAttrCreationDate)] as? NSDate
+            return keychainItemData[String(kSecAttrCreationDate)] as? Date
         }
         set {
             
-            keychainItemData[String(kSecAttrCreationDate)] = newValue
+            keychainItemData[String(kSecAttrCreationDate)] = newValue as Any?
         }
     }
-    var secAttrModificationDate:NSDate? {
+    var secAttrModificationDate:Date? {
         get {
-            return keychainItemData[String(kSecAttrModificationDate)] as? NSDate
+            return keychainItemData[String(kSecAttrModificationDate)] as? Date
         }
         set {
             
-            keychainItemData[String(kSecAttrModificationDate)] = newValue
+            keychainItemData[String(kSecAttrModificationDate)] = newValue as Any?
         }
     }
     var secAttrDescription:String? {
@@ -386,7 +388,7 @@ class IPaKeyChainPassword:IPaKeyChain {
         }
         set {
             
-            keychainItemData[String(kSecAttrDescription)] = newValue
+            keychainItemData[String(kSecAttrDescription)] = newValue as Any?
         }
     }
     var secAttrComment:String? {
@@ -395,7 +397,7 @@ class IPaKeyChainPassword:IPaKeyChain {
         }
         set {
             
-            keychainItemData[String(kSecAttrComment)] = newValue
+            keychainItemData[String(kSecAttrComment)] = newValue as Any?
         }
     }
     var secAttrCreator:String? {
@@ -404,7 +406,7 @@ class IPaKeyChainPassword:IPaKeyChain {
         }
         set {
             
-            keychainItemData[String(kSecAttrCreator)] = newValue
+            keychainItemData[String(kSecAttrCreator)] = newValue as Any?
         }
     }
     var secAttrType:NSNumber? {
@@ -421,7 +423,7 @@ class IPaKeyChainPassword:IPaKeyChain {
         }
         set {
             
-            keychainItemData[String(kSecAttrIsInvisible)] = newValue
+            keychainItemData[String(kSecAttrIsInvisible)] = newValue as Any?
         }
     }
     var secAttrIsNegative:Bool? {
@@ -430,7 +432,7 @@ class IPaKeyChainPassword:IPaKeyChain {
         }
         set {
             
-            keychainItemData[String(kSecAttrIsNegative)] = newValue
+            keychainItemData[String(kSecAttrIsNegative)] = newValue as Any?
         }
     }
     var secAttrAccount:String? {
@@ -439,7 +441,7 @@ class IPaKeyChainPassword:IPaKeyChain {
         }
         set {
             
-            keychainItemData[String(kSecAttrAccount)] = newValue
+            keychainItemData[String(kSecAttrAccount)] = newValue as Any?
         }
     }
     
@@ -455,7 +457,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             return nil
         }
         set {
-            keychainItemData[String(kSecAttrKeyClass)] = newValue?.rawValue
+            keychainItemData[String(kSecAttrKeyClass)] = newValue?.rawValue as Any?
         }
     }
     var secAttrApplicationLabel:String? {
@@ -463,7 +465,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             return keychainItemData[String(kSecAttrApplicationLabel)] as? String
         }
         set {
-            keychainItemData[String(kSecAttrApplicationLabel)] = newValue
+            keychainItemData[String(kSecAttrApplicationLabel)] = newValue as Any?
         }
     }
     
@@ -472,15 +474,15 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             return keychainItemData[String(kSecAttrIsPermanent)] as? Bool
         }
         set {
-            keychainItemData[String(kSecAttrIsPermanent)] = newValue
+            keychainItemData[String(kSecAttrIsPermanent)] = newValue as Any?
         }
     }
-    var secAttrApplicationTag:NSData? {
+    var secAttrApplicationTag:Data? {
         get {
-            return keychainItemData[String(kSecAttrApplicationTag)] as? NSData
+            return keychainItemData[String(kSecAttrApplicationTag)] as? Data
         }
         set {
-            keychainItemData[String(kSecAttrApplicationTag)] = newValue
+            keychainItemData[String(kSecAttrApplicationTag)] = newValue as Any?
         }
         
     }
@@ -492,7 +494,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             return nil
         }
         set {
-            keychainItemData[String(kSecAttrKeyType)] = newValue?.rawValue
+            keychainItemData[String(kSecAttrKeyType)] = newValue?.rawValue as Any?
         }
     }
     var secAttrKeySizeInBits:Int? {
@@ -500,7 +502,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             return keychainItemData[String(kSecAttrKeySizeInBits)] as? Int
         }
         set {
-            keychainItemData[String(kSecAttrKeySizeInBits)] = newValue
+            keychainItemData[String(kSecAttrKeySizeInBits)] = newValue as Any?
         }
     }
     var secAttrEffectiveKeySize:Int? {
@@ -508,7 +510,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             return keychainItemData[String(kSecAttrEffectiveKeySize)] as? Int
         }
         set {
-            keychainItemData[String(kSecAttrEffectiveKeySize)] = newValue
+            keychainItemData[String(kSecAttrEffectiveKeySize)] = newValue as Any?
         }
     }
     var secAttrCanEncrypt:Bool? {
@@ -516,7 +518,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             return keychainItemData[String(kSecAttrCanEncrypt)] as? Bool
         }
         set {
-            keychainItemData[String(kSecAttrCanEncrypt)] = newValue
+            keychainItemData[String(kSecAttrCanEncrypt)] = newValue as Any?
         }
     }
     var secAttrCanDecrypt:Bool? {
@@ -524,7 +526,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             return keychainItemData[String(kSecAttrCanDecrypt)] as? Bool
         }
         set {
-            keychainItemData[String(kSecAttrCanDecrypt)] = newValue
+            keychainItemData[String(kSecAttrCanDecrypt)] = newValue as Any?
         }
     }
     var secAttrCanDerive:Bool? {
@@ -532,7 +534,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             return keychainItemData[String(kSecAttrCanDerive)] as? Bool
         }
         set {
-            keychainItemData[String(kSecAttrCanDerive)] = newValue
+            keychainItemData[String(kSecAttrCanDerive)] = newValue as Any?
         }
     }
     var secAttrCanSign:Bool? {
@@ -540,7 +542,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             return keychainItemData[String(kSecAttrCanSign)] as? Bool
         }
         set {
-            keychainItemData[String(kSecAttrCanSign)] = newValue
+            keychainItemData[String(kSecAttrCanSign)] = newValue as Any?
         }
     }
     var secAttrCanVerify:Bool? {
@@ -548,7 +550,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             return keychainItemData[String(kSecAttrCanVerify)] as? Bool
         }
         set {
-            keychainItemData[String(kSecAttrCanVerify)] = newValue
+            keychainItemData[String(kSecAttrCanVerify)] = newValue as Any?
         }
     }
     var secAttrCanWrap:Bool? {
@@ -556,7 +558,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             return keychainItemData[String(kSecAttrCanWrap)] as? Bool
         }
         set {
-            keychainItemData[String(kSecAttrCanWrap)] = newValue
+            keychainItemData[String(kSecAttrCanWrap)] = newValue as Any?
         }
     }
     var secAttrCanUnwrap:Bool? {
@@ -564,7 +566,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             return keychainItemData[String(kSecAttrCanUnwrap)] as? Bool
         }
         set {
-            keychainItemData[String(kSecAttrCanUnwrap)] = newValue
+            keychainItemData[String(kSecAttrCanUnwrap)] = newValue as Any?
         }
     }
 

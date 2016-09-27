@@ -11,7 +11,7 @@ import Foundation
 class IPaKeyChainCertificate:IPaKeyChain {
     override init () {
         super.init()
-        self.keychainItemData[String(kSecClass)] = String(kSecClassCertificate)
+        self.keychainItemData[String(kSecClass)] = kSecClassCertificate as NSString
     }
     /*
     kSecClassCertificate item attributes:
@@ -35,7 +35,7 @@ class IPaKeyChainCertificate:IPaKeyChain {
         }
         set {
             
-            keychainItemData[String(kSecAttrCertificateType)] = newValue
+            keychainItemData[String(kSecAttrCertificateType)] = newValue as AnyObject?
         }
         
     }
@@ -45,56 +45,56 @@ class IPaKeyChainCertificate:IPaKeyChain {
         }
         set {
             
-            keychainItemData[String(kSecAttrCertificateEncoding)] = newValue
+            keychainItemData[String(kSecAttrCertificateEncoding)] = newValue as AnyObject?
         }
     }
-    var secAttrSubject:NSData? {
+    var secAttrSubject:Data? {
         get {
-            return keychainItemData[String(kSecAttrSubject)] as? NSData
+            return keychainItemData[String(kSecAttrSubject)] as? Data
         }
         set {
             
-            keychainItemData[String(kSecAttrSubject)] = newValue
+            keychainItemData[String(kSecAttrSubject)] = newValue as AnyObject?
         }
         
     }
-    var secAttrIssuer:NSData? {
+    var secAttrIssuer:Data? {
         get {
-            return keychainItemData[String(kSecAttrIssuer)] as? NSData
+            return keychainItemData[String(kSecAttrIssuer)] as? Data
         }
         set {
             
-            keychainItemData[String(kSecAttrIssuer)] = newValue
+            keychainItemData[String(kSecAttrIssuer)] = newValue as AnyObject?
         }
         
     }
-    var secAttrSerialNumber:NSData? {
+    var secAttrSerialNumber:Data? {
         get {
-            return keychainItemData[String(kSecAttrSerialNumber)] as? NSData
+            return keychainItemData[String(kSecAttrSerialNumber)] as? Data
         }
         set {
             
-            keychainItemData[String(kSecAttrSerialNumber)] = newValue
+            keychainItemData[String(kSecAttrSerialNumber)] = newValue as AnyObject?
         }
         
     }
-    var secAttrSubjectKeyID:NSData? {
+    var secAttrSubjectKeyID:Data? {
         get {
-            return keychainItemData[String(kSecAttrSubjectKeyID)] as? NSData
+            return keychainItemData[String(kSecAttrSubjectKeyID)] as? Data
         }
         set {
             
-            keychainItemData[String(kSecAttrSubjectKeyID)] = newValue
+            keychainItemData[String(kSecAttrSubjectKeyID)] = newValue as AnyObject?
         }
         
     }
-    var secAttrPublicKeyHash:NSData? {
+    var secAttrPublicKeyHash:Data? {
         get {
-            return keychainItemData[String(kSecAttrPublicKeyHash)] as? NSData
+            return keychainItemData[String(kSecAttrPublicKeyHash)] as? Data
         }
         set {
             
-            keychainItemData[String(kSecAttrPublicKeyHash)] = newValue
+            keychainItemData[String(kSecAttrPublicKeyHash)] = newValue as AnyObject?
         }
         
     }
