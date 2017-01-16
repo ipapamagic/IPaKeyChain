@@ -14,20 +14,20 @@ class IPaKeyChainCertificate:IPaKeyChain {
         self.keychainItemData[String(kSecClass)] = kSecClassCertificate as NSString
     }
     /*
-    kSecClassCertificate item attributes:
-    kSecAttrAccessible
-    kSecAttrAccessControl
-    kSecAttrAccessGroup
-    kSecAttrCertificateType
-    kSecAttrCertificateEncoding
-    kSecAttrLabel
-    kSecAttrSubject
-    kSecAttrIssuer
-    kSecAttrSerialNumber
-    kSecAttrSubjectKeyID
-    kSecAttrPublicKeyHash
-    kSecAttrSynchronizable
-    */
+     kSecClassCertificate item attributes:
+     kSecAttrAccessible
+     kSecAttrAccessControl
+     kSecAttrAccessGroup
+     kSecAttrCertificateType
+     kSecAttrCertificateEncoding
+     kSecAttrLabel
+     kSecAttrSubject
+     kSecAttrIssuer
+     kSecAttrSerialNumber
+     kSecAttrSubjectKeyID
+     kSecAttrPublicKeyHash
+     kSecAttrSynchronizable
+     */
     
     var secAttrCerificateType:Int? {
         get {
@@ -35,7 +35,7 @@ class IPaKeyChainCertificate:IPaKeyChain {
         }
         set {
             
-            keychainItemData[String(kSecAttrCertificateType)] = newValue as AnyObject?
+            keychainItemData[String(kSecAttrCertificateType)] = newValue
         }
         
     }
@@ -45,7 +45,7 @@ class IPaKeyChainCertificate:IPaKeyChain {
         }
         set {
             
-            keychainItemData[String(kSecAttrCertificateEncoding)] = newValue as AnyObject?
+            keychainItemData[String(kSecAttrCertificateEncoding)] = newValue
         }
     }
     var secAttrSubject:Data? {
@@ -54,7 +54,7 @@ class IPaKeyChainCertificate:IPaKeyChain {
         }
         set {
             
-            keychainItemData[String(kSecAttrSubject)] = newValue as AnyObject?
+            keychainItemData[String(kSecAttrSubject)] = newValue
         }
         
     }
@@ -64,7 +64,7 @@ class IPaKeyChainCertificate:IPaKeyChain {
         }
         set {
             
-            keychainItemData[String(kSecAttrIssuer)] = newValue as AnyObject?
+            keychainItemData[String(kSecAttrIssuer)] = newValue
         }
         
     }
@@ -74,7 +74,7 @@ class IPaKeyChainCertificate:IPaKeyChain {
         }
         set {
             
-            keychainItemData[String(kSecAttrSerialNumber)] = newValue as AnyObject?
+            keychainItemData[String(kSecAttrSerialNumber)] = newValue
         }
         
     }
@@ -84,7 +84,7 @@ class IPaKeyChainCertificate:IPaKeyChain {
         }
         set {
             
-            keychainItemData[String(kSecAttrSubjectKeyID)] = newValue as AnyObject?
+            keychainItemData[String(kSecAttrSubjectKeyID)] = newValue
         }
         
     }
@@ -94,9 +94,9 @@ class IPaKeyChainCertificate:IPaKeyChain {
         }
         set {
             
-            keychainItemData[String(kSecAttrPublicKeyHash)] = newValue as AnyObject?
+            keychainItemData[String(kSecAttrPublicKeyHash)] = newValue
         }
         
     }
-
+    
 }

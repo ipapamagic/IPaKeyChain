@@ -216,7 +216,7 @@ class IPaKeyChainInternetPassword :IPaKeyChainPassword {
     */
     override init () {
         super.init()
-        self.keychainItemData[String(kSecClass)] = kSecClassInternetPassword as NSString
+        self.keychainItemData[String(kSecClass)] = String(kSecClassInternetPassword)
     }
     
     /*
@@ -248,7 +248,7 @@ class IPaKeyChainInternetPassword :IPaKeyChainPassword {
         }
         set {
             
-            keychainItemData[String(kSecAttrSecurityDomain)] = newValue as AnyObject?
+            keychainItemData[String(kSecAttrSecurityDomain)] = newValue
         }
     }
     var secAttrServer:String? {
@@ -257,7 +257,7 @@ class IPaKeyChainInternetPassword :IPaKeyChainPassword {
         }
         set {
             
-            keychainItemData[String(kSecAttrServer)] = newValue as AnyObject?
+            keychainItemData[String(kSecAttrServer)] = newValue
         }
     }
     var secAttrProtocol:IPaSecAttrProtocol? {
@@ -269,7 +269,7 @@ class IPaKeyChainInternetPassword :IPaKeyChainPassword {
         }
         set {
             
-            keychainItemData[String(kSecAttrProtocol)] = newValue?.rawValue as AnyObject?
+            keychainItemData[String(kSecAttrProtocol)] = newValue?.rawValue
         }
     }
     var secAttrAuthenticationType:IPaSecAuthenticationType? {
@@ -281,7 +281,7 @@ class IPaKeyChainInternetPassword :IPaKeyChainPassword {
         }
         set {
             
-            keychainItemData[String(kSecAttrAuthenticationType)] = newValue?.rawValue as AnyObject?
+            keychainItemData[String(kSecAttrAuthenticationType)] = newValue?.rawValue
         }
     }
     var secAttrPort:Int? {
@@ -290,7 +290,7 @@ class IPaKeyChainInternetPassword :IPaKeyChainPassword {
         }
         set {
             
-            keychainItemData[String(kSecAttrPort)] = newValue as AnyObject?
+            keychainItemData[String(kSecAttrPort)] = newValue
         }
     }
     var secAttrPath:String? {
@@ -299,7 +299,7 @@ class IPaKeyChainInternetPassword :IPaKeyChainPassword {
         }
         set {
             
-            keychainItemData[String(kSecAttrPath)] = newValue as AnyObject?
+            keychainItemData[String(kSecAttrPath)] = newValue
         }
     }
 

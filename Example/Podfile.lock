@@ -1,0 +1,16 @@
+PODS:
+  - IPaKeyChain (0.1.0)
+
+DEPENDENCIES:
+  - IPaKeyChain (from `../`)
+
+EXTERNAL SOURCES:
+  IPaKeyChain:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  IPaKeyChain: bc5ce08795bc8176271f85c8ae5a5eb6dd1843a3
+
+PODFILE CHECKSUM: e1b8307d2040906536f83ca47edb4ee04ac54960
+
+COCOAPODS: 1.1.1

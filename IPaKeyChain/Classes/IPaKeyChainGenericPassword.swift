@@ -31,7 +31,7 @@ class IPaKeyChainGenericPassword :IPaKeyChainPassword {
     */
     override init () {
         super.init()
-        self.keychainItemData[String(kSecClass)] = kSecClassGenericPassword as NSString
+        self.keychainItemData[String(kSecClass)] = String(kSecClassGenericPassword)
     }
     var secAttrAccessible:IPaSecAttrAccessible? {
         get {
@@ -42,7 +42,7 @@ class IPaKeyChainGenericPassword :IPaKeyChainPassword {
         }
         set {
             
-            keychainItemData[String(kSecAttrAccessible)] = newValue?.rawValue as AnyObject?
+            keychainItemData[String(kSecAttrAccessible)] = newValue?.rawValue
         }
         
     }
@@ -52,7 +52,7 @@ class IPaKeyChainGenericPassword :IPaKeyChainPassword {
         }
         set {
             
-            keychainItemData[String(kSecAttrService)] = newValue as AnyObject?
+            keychainItemData[String(kSecAttrService)] = newValue
         }
     }
     var secAttrGeneric:Data? {
@@ -61,7 +61,7 @@ class IPaKeyChainGenericPassword :IPaKeyChainPassword {
         }
         set {
             
-            keychainItemData[String(kSecAttrGeneric)] = newValue as AnyObject?
+            keychainItemData[String(kSecAttrGeneric)] = newValue
         }
     }
 }

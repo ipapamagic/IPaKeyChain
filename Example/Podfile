@@ -1,0 +1,6 @@
+use_frameworks!
+target 'IPaKeyChain_Tests' do
+  pod 'IPaKeyChain', :path => '../'
+  
+  
+end
