@@ -143,7 +143,7 @@ public enum IPaSecAttrKeyType : RawRepresentable {
     
 }
 
-class IPaKeyChain :Sequence{
+public class IPaKeyChain :Sequence{
     var keychainItemData = [String:Any]()
 
     //MARK: SequenceType
@@ -161,18 +161,18 @@ class IPaKeyChain :Sequence{
         }
     }
     
-    func makeIterator() ->  DictionaryIterator<String, Any> {
+    public func makeIterator() ->  DictionaryIterator<String, Any> {
         return keychainItemData.makeIterator()
     }
-    init() {
+    public init() {
         
     }
-    convenience init(data:[String:Any]) {
+    convenience public init(data:[String:Any]) {
         self.init()
         keychainItemData = data
     }
     //MARK: KeyChain access
-    var secValueData:Data? {
+    public var secValueData:Data? {
         get {
             return keychainItemData[String(kSecValueData)] as? Data
         }
@@ -180,7 +180,7 @@ class IPaKeyChain :Sequence{
             keychainItemData[String(kSecValueData)] = newValue as Any?
         }
     }
-    var secReturnData:Bool {
+    public var secReturnData:Bool {
         get {
             if let returnData = keychainItemData[String(kSecReturnData)] as? Bool {
                 return returnData
@@ -191,7 +191,7 @@ class IPaKeyChain :Sequence{
             keychainItemData[String(kSecReturnData)] = newValue as Any?
         }
     }
-    var secReturnAttributes:Bool {
+    public var secReturnAttributes:Bool {
         get {
             if let _ = keychainItemData[String(kSecReturnAttributes)] {
                 return true
@@ -208,7 +208,7 @@ class IPaKeyChain :Sequence{
 
         }
     }
-    var secReturnRef:Bool {
+    public var secReturnRef:Bool {
         get {
             if let returnData = keychainItemData[String(kSecReturnRef)] as? Bool {
                 return returnData
@@ -224,7 +224,7 @@ class IPaKeyChain :Sequence{
             }
         }
     }
-    var secReturnPersistentRef:Bool {
+    public var secReturnPersistentRef:Bool {
         get {
             if let returnData = keychainItemData[String(kSecReturnPersistentRef)] as? Bool {
                 return returnData
@@ -240,7 +240,7 @@ class IPaKeyChain :Sequence{
             }
         }
     }
-    var matchLimit:IPaSecMatchLimit {
+    public var matchLimit:IPaSecMatchLimit {
         get {
             if let limit = keychainItemData[String(kSecMatchLimit)] as? String {
                 return IPaSecMatchLimit(rawValue: limit)!
@@ -261,30 +261,30 @@ class IPaKeyChain :Sequence{
         }
     }
     //MARK: KeyChain Function
-    func secItemCopyMatching(_ result:inout AnyObject?) -> OSStatus {
+    public func secItemCopyMatching(_ result:inout AnyObject?) -> OSStatus {
         return SecItemCopyMatching(keychainItemData as CFDictionary, &result)
 //        return withUnsafeMutablePointer(to: &result) { SecItemCopyMatching(keychainItemData as CFDictionary, $0 as? UnsafeMutablePointer<CFTypeRef?>) }
     }
-    func secItemAdd(_ result:inout AnyObject?) -> OSStatus {
+    public func secItemAdd(_ result:inout AnyObject?) -> OSStatus {
         return SecItemAdd(keychainItemData as CFDictionary, &result)
 //        return withUnsafeMutablePointer(to: &result) { SecItemAdd(keychainItemData as CFDictionary, $0 as? UnsafeMutablePointer<CFTypeRef?>) }
     }
-    func secItemUpdate(_ attributesToUpdate:CFDictionary) -> OSStatus {
+    public func secItemUpdate(_ attributesToUpdate:CFDictionary) -> OSStatus {
         
         return SecItemUpdate(keychainItemData as CFDictionary, attributesToUpdate)
     }
-    func secItemUpdate(_ attributesToUpdate:IPaKeyChain) -> OSStatus {
+    public func secItemUpdate(_ attributesToUpdate:IPaKeyChain) -> OSStatus {
         var dictionary = attributesToUpdate.keychainItemData
         dictionary.removeValue(forKey: String(kSecClass))
         return SecItemUpdate(keychainItemData as CFDictionary, dictionary as CFDictionary)
     }
     
-    func secItemDelete() -> OSStatus {
+    public func secItemDelete() -> OSStatus {
         
         return SecItemDelete(keychainItemData as CFDictionary)
     }
     //MARK: Common Attribute
-    var secAttrAccessControl:SecAccessControl? {
+    public var secAttrAccessControl:SecAccessControl? {
         get {
             if let value = keychainItemData[String(kSecAttrAccessControl)] {
                 return (value as! SecAccessControl)
@@ -295,7 +295,7 @@ class IPaKeyChain :Sequence{
             keychainItemData[String(kSecAttrAccessControl)] = newValue
         }
     }
-    func createAccessControl(_ accessible:IPaSecAttrAccessible,createFlags:SecAccessControlCreateFlags) throws{
+    public func createAccessControl(_ accessible:IPaSecAttrAccessible,createFlags:SecAccessControlCreateFlags) throws{
         let accessControlError:UnsafeMutablePointer<Unmanaged<CFError>?>? = nil
         self.secAttrAccessControl = SecAccessControlCreateWithFlags(kCFAllocatorDefault, accessible.rawValue as CFTypeRef, createFlags,accessControlError)
         
@@ -306,7 +306,7 @@ class IPaKeyChain :Sequence{
         }
         
     }
-    var secAttrAccessGroup:String? {
+    public var secAttrAccessGroup:String? {
         get {
             return keychainItemData[String(kSecAttrAccessGroup)] as? String
         }
@@ -315,7 +315,7 @@ class IPaKeyChain :Sequence{
         }
     }
     
-    var secAttrLabel:String? {
+    public var secAttrLabel:String? {
         get {
             return keychainItemData[String(kSecAttrLabel)] as? String
         }
@@ -323,7 +323,7 @@ class IPaKeyChain :Sequence{
             keychainItemData[String(kSecAttrLabel)] = newValue as Any?
         }
     }
-    var secAttrSynchronizable:IPaSecAttrSynchronizable? {
+    public var secAttrSynchronizable:IPaSecAttrSynchronizable? {
         get {
             if let value = keychainItemData[String(kSecAttrSynchronizable)] as? Bool {
                 return IPaSecAttrSynchronizable(rawValue: value)
@@ -363,8 +363,8 @@ class IPaKeyChain :Sequence{
 */
 }
 
-class IPaKeyChainPassword:IPaKeyChain {
-    var secAttrCreationDate:Date? {
+public class IPaKeyChainPassword:IPaKeyChain {
+    public var secAttrCreationDate:Date? {
         get {
             return keychainItemData[String(kSecAttrCreationDate)] as? Date
         }
@@ -373,7 +373,7 @@ class IPaKeyChainPassword:IPaKeyChain {
             keychainItemData[String(kSecAttrCreationDate)] = newValue as Any?
         }
     }
-    var secAttrModificationDate:Date? {
+    public var secAttrModificationDate:Date? {
         get {
             return keychainItemData[String(kSecAttrModificationDate)] as? Date
         }
@@ -382,7 +382,7 @@ class IPaKeyChainPassword:IPaKeyChain {
             keychainItemData[String(kSecAttrModificationDate)] = newValue as Any?
         }
     }
-    var secAttrDescription:String? {
+    public var secAttrDescription:String? {
         get {
             return keychainItemData[String(kSecAttrDescription)] as? String
         }
@@ -391,7 +391,7 @@ class IPaKeyChainPassword:IPaKeyChain {
             keychainItemData[String(kSecAttrDescription)] = newValue as Any?
         }
     }
-    var secAttrComment:String? {
+    public var secAttrComment:String? {
         get {
             return keychainItemData[String(kSecAttrComment)] as? String
         }
@@ -400,7 +400,7 @@ class IPaKeyChainPassword:IPaKeyChain {
             keychainItemData[String(kSecAttrComment)] = newValue as Any?
         }
     }
-    var secAttrCreator:String? {
+    public var secAttrCreator:String? {
         get {
             return keychainItemData[String(kSecAttrCreator)] as? String
         }
@@ -409,7 +409,7 @@ class IPaKeyChainPassword:IPaKeyChain {
             keychainItemData[String(kSecAttrCreator)] = newValue as Any?
         }
     }
-    var secAttrType:NSNumber? {
+    public var secAttrType:NSNumber? {
         get {
             return keychainItemData[String(kSecAttrType)] as? NSNumber
         }
@@ -417,7 +417,7 @@ class IPaKeyChainPassword:IPaKeyChain {
             keychainItemData[String(kSecAttrType)] = newValue
         }
     }
-    var secAttrIsInvisible:Bool? {
+    public var secAttrIsInvisible:Bool? {
         get {
             return keychainItemData[String(kSecAttrIsInvisible)] as? Bool
         }
@@ -426,7 +426,7 @@ class IPaKeyChainPassword:IPaKeyChain {
             keychainItemData[String(kSecAttrIsInvisible)] = newValue as Any?
         }
     }
-    var secAttrIsNegative:Bool? {
+    public var secAttrIsNegative:Bool? {
         get {
             return keychainItemData[String(kSecAttrIsNegative)] as? Bool
         }
@@ -435,7 +435,7 @@ class IPaKeyChainPassword:IPaKeyChain {
             keychainItemData[String(kSecAttrIsNegative)] = newValue as Any?
         }
     }
-    var secAttrAccount:String? {
+    public var secAttrAccount:String? {
         get {
             return keychainItemData[String(kSecAttrAccount)] as? String
         }
@@ -448,8 +448,8 @@ class IPaKeyChainPassword:IPaKeyChain {
 }
 
 
-class IPaKeyChainKeyIdentity:IPaKeyChain {
-    var secAttrKeyClass:IPaSecAttrKeyClass? {
+public class IPaKeyChainKeyIdentity:IPaKeyChain {
+    public var secAttrKeyClass:IPaSecAttrKeyClass? {
         get {
             if let value = keychainItemData[String(kSecAttrKeyClass)] as? String {
                 return IPaSecAttrKeyClass(rawValue: value)
@@ -460,7 +460,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             keychainItemData[String(kSecAttrKeyClass)] = newValue?.rawValue as Any?
         }
     }
-    var secAttrApplicationLabel:String? {
+    public var secAttrApplicationLabel:String? {
         get {
             return keychainItemData[String(kSecAttrApplicationLabel)] as? String
         }
@@ -469,7 +469,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
         }
     }
     
-    var secAttrIsPermanent:Bool? {
+    public var secAttrIsPermanent:Bool? {
         get {
             return keychainItemData[String(kSecAttrIsPermanent)] as? Bool
         }
@@ -477,7 +477,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             keychainItemData[String(kSecAttrIsPermanent)] = newValue as Any?
         }
     }
-    var secAttrApplicationTag:Data? {
+    public var secAttrApplicationTag:Data? {
         get {
             return keychainItemData[String(kSecAttrApplicationTag)] as? Data
         }
@@ -486,7 +486,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
         }
         
     }
-    var secAttrKeyType:IPaSecAttrKeyType? {
+    public var secAttrKeyType:IPaSecAttrKeyType? {
         get {
             if let value = keychainItemData[String(kSecAttrKeyType)] as? String {
                 return IPaSecAttrKeyType(rawValue: value)
@@ -497,7 +497,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             keychainItemData[String(kSecAttrKeyType)] = newValue?.rawValue as Any?
         }
     }
-    var secAttrKeySizeInBits:Int? {
+    public var secAttrKeySizeInBits:Int? {
         get {
             return keychainItemData[String(kSecAttrKeySizeInBits)] as? Int
         }
@@ -505,7 +505,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             keychainItemData[String(kSecAttrKeySizeInBits)] = newValue as Any?
         }
     }
-    var secAttrEffectiveKeySize:Int? {
+    public var secAttrEffectiveKeySize:Int? {
         get {
             return keychainItemData[String(kSecAttrEffectiveKeySize)] as? Int
         }
@@ -513,7 +513,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             keychainItemData[String(kSecAttrEffectiveKeySize)] = newValue as Any?
         }
     }
-    var secAttrCanEncrypt:Bool? {
+    public var secAttrCanEncrypt:Bool? {
         get {
             return keychainItemData[String(kSecAttrCanEncrypt)] as? Bool
         }
@@ -521,7 +521,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             keychainItemData[String(kSecAttrCanEncrypt)] = newValue as Any?
         }
     }
-    var secAttrCanDecrypt:Bool? {
+    public var secAttrCanDecrypt:Bool? {
         get {
             return keychainItemData[String(kSecAttrCanDecrypt)] as? Bool
         }
@@ -529,7 +529,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             keychainItemData[String(kSecAttrCanDecrypt)] = newValue as Any?
         }
     }
-    var secAttrCanDerive:Bool? {
+    public var secAttrCanDerive:Bool? {
         get {
             return keychainItemData[String(kSecAttrCanDerive)] as? Bool
         }
@@ -537,7 +537,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             keychainItemData[String(kSecAttrCanDerive)] = newValue as Any?
         }
     }
-    var secAttrCanSign:Bool? {
+    public var secAttrCanSign:Bool? {
         get {
             return keychainItemData[String(kSecAttrCanSign)] as? Bool
         }
@@ -545,7 +545,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             keychainItemData[String(kSecAttrCanSign)] = newValue as Any?
         }
     }
-    var secAttrCanVerify:Bool? {
+    public var secAttrCanVerify:Bool? {
         get {
             return keychainItemData[String(kSecAttrCanVerify)] as? Bool
         }
@@ -553,7 +553,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             keychainItemData[String(kSecAttrCanVerify)] = newValue as Any?
         }
     }
-    var secAttrCanWrap:Bool? {
+    public var secAttrCanWrap:Bool? {
         get {
             return keychainItemData[String(kSecAttrCanWrap)] as? Bool
         }
@@ -561,7 +561,7 @@ class IPaKeyChainKeyIdentity:IPaKeyChain {
             keychainItemData[String(kSecAttrCanWrap)] = newValue as Any?
         }
     }
-    var secAttrCanUnwrap:Bool? {
+    public var secAttrCanUnwrap:Bool? {
         get {
             return keychainItemData[String(kSecAttrCanUnwrap)] as? Bool
         }

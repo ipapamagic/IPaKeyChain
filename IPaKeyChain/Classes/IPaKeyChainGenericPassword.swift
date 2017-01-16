@@ -8,7 +8,7 @@
 
 import Foundation
 
-class IPaKeyChainGenericPassword :IPaKeyChainPassword {
+public class IPaKeyChainGenericPassword :IPaKeyChainPassword {
     //MARK: GenericPassword class attribute
     /*
     kSecClassGenericPassword item attributes:
@@ -29,11 +29,11 @@ class IPaKeyChainGenericPassword :IPaKeyChainPassword {
     kSecAttrGeneric
     kSecAttrSynchronizable
     */
-    override init () {
+    override public init () {
         super.init()
         self.keychainItemData[String(kSecClass)] = String(kSecClassGenericPassword)
     }
-    var secAttrAccessible:IPaSecAttrAccessible? {
+    public var secAttrAccessible:IPaSecAttrAccessible? {
         get {
             if let value = keychainItemData[String(kSecAttrAccessible)] as? String {
                 return IPaSecAttrAccessible(rawValue: value)
@@ -46,7 +46,7 @@ class IPaKeyChainGenericPassword :IPaKeyChainPassword {
         }
         
     }
-    var secAttrService:String? {
+    public var secAttrService:String? {
         get {
             return keychainItemData[String(kSecAttrService)] as? String
         }
@@ -55,7 +55,7 @@ class IPaKeyChainGenericPassword :IPaKeyChainPassword {
             keychainItemData[String(kSecAttrService)] = newValue
         }
     }
-    var secAttrGeneric:Data? {
+    public var secAttrGeneric:Data? {
         get {
             return keychainItemData[String(kSecAttrGeneric)] as? Data
         }
