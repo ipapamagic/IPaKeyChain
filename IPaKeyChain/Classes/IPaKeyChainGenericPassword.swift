@@ -8,32 +8,32 @@
 
 import Foundation
 
-public class IPaKeyChainGenericPassword :IPaKeyChainPassword {
+open class IPaKeyChainGenericPassword :IPaKeyChainPassword {
     //MARK: GenericPassword class attribute
     /*
-    kSecClassGenericPassword item attributes:
-    kSecAttrAccessible
-    kSecAttrAccessControl
-    kSecAttrAccessGroup
-    kSecAttrCreationDate
-    kSecAttrModificationDate
-    kSecAttrDescription
-    kSecAttrComment
-    kSecAttrCreator
-    kSecAttrType
-    kSecAttrLabel
-    kSecAttrIsInvisible
-    kSecAttrIsNegative
-    kSecAttrAccount
-    kSecAttrService
-    kSecAttrGeneric
-    kSecAttrSynchronizable
-    */
+     kSecClassGenericPassword item attributes:
+     kSecAttrAccessible
+     kSecAttrAccessControl
+     kSecAttrAccessGroup
+     kSecAttrCreationDate
+     kSecAttrModificationDate
+     kSecAttrDescription
+     kSecAttrComment
+     kSecAttrCreator
+     kSecAttrType
+     kSecAttrLabel
+     kSecAttrIsInvisible
+     kSecAttrIsNegative
+     kSecAttrAccount
+     kSecAttrService
+     kSecAttrGeneric
+     kSecAttrSynchronizable
+     */
     override public init () {
         super.init()
         self.keychainItemData[String(kSecClass)] = String(kSecClassGenericPassword)
     }
-    public var secAttrAccessible:IPaSecAttrAccessible? {
+    open var secAttrAccessible:IPaSecAttrAccessible? {
         get {
             if let value = keychainItemData[String(kSecAttrAccessible)] as? String {
                 return IPaSecAttrAccessible(rawValue: value)
@@ -46,7 +46,7 @@ public class IPaKeyChainGenericPassword :IPaKeyChainPassword {
         }
         
     }
-    public var secAttrService:String? {
+    open var secAttrService:String? {
         get {
             return keychainItemData[String(kSecAttrService)] as? String
         }
@@ -55,7 +55,7 @@ public class IPaKeyChainGenericPassword :IPaKeyChainPassword {
             keychainItemData[String(kSecAttrService)] = newValue
         }
     }
-    public var secAttrGeneric:Data? {
+    open var secAttrGeneric:Data? {
         get {
             return keychainItemData[String(kSecAttrGeneric)] as? Data
         }
