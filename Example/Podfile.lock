@@ -1,5 +1,5 @@
 PODS:
-  - IPaKeyChain (0.1.0)
+  - IPaKeyChain (2.2)
 
 DEPENDENCIES:
   - IPaKeyChain (from `../`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  IPaKeyChain: bc5ce08795bc8176271f85c8ae5a5eb6dd1843a3
+  IPaKeyChain: ff41e2435aa49ce8aed927dcc9715ccf944ebd2b
 
 PODFILE CHECKSUM: e1b8307d2040906536f83ca47edb4ee04ac54960
 
-COCOAPODS: 1.1.1
+COCOAPODS: 1.7.0.beta.2
