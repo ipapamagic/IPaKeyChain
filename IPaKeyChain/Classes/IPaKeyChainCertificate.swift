@@ -8,7 +8,7 @@
 
 import Foundation
 
-class IPaKeyChainCertificate:IPaKeyChain {
+class IPaKeyChainCertificate:IPaKeyChainObject {
     override init () {
         super.init()
         self.keychainItemData[String(kSecClass)] = kSecClassCertificate as NSString
