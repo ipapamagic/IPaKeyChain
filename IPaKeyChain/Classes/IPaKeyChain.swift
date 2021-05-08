@@ -87,3 +87,23 @@ open class IPaKeyChain: NSObject {
         return delChainQuery.secItemDelete() == errSecSuccess
     }
 }
+
+public class IPaKeyChainToken:NSObject {
+    @objc dynamic public var token:String? {
+        get {
+            IPaKeyChain.queryGenericPassword(self.serviceName, account: self.name)
+        }
+        set {
+            _ = IPaKeyChain.removeGenericPassword(self.serviceName, account: self.name)
+            if let newValue = newValue {
+                _ = IPaKeyChain.insertGenericPassword(self.serviceName, account: self.name, value: newValue)
+            }            
+        }
+    }
+    public var serviceName:String
+    public var name:String
+    public init(_ serviceName:String,name:String) {
+        self.serviceName = serviceName
+        self.name = name
+    }
+}
