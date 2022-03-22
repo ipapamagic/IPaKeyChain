@@ -56,12 +56,13 @@ open class IPaKeyChain: NSObject {
         }
         return [String]()
     }
-    public static func insertGenericPassword(_ serviceName:String,account:String,value:String,encoding:String.Encoding = .utf8) -> Bool {
+    public static func insertGenericPassword(_ serviceName:String,account:String,value:String,encoding:String.Encoding = .utf8,synchronizable:Bool = false) -> Bool {
         
         let addQuery = IPaKeyChainGenericPassword()
         addQuery.secAttrService = serviceName
         addQuery.secAttrAccount = account
         addQuery.secValueData = value.data(using: encoding)
+        addQuery.secAttrSynchronizable = synchronizable
         var data:AnyObject?
         if addQuery.secItemAdd(&data) == errSecSuccess {
             return true
@@ -69,11 +70,11 @@ open class IPaKeyChain: NSObject {
         return false
         
     }
-    public static func updateGenericPassword(_ serviceName:String,account:String,value:String,encoding:String.Encoding = .utf8) -> Bool {
+    public static func updateGenericPassword(_ serviceName:String,account:String,value:String,encoding:String.Encoding = .utf8,synchronizable:Bool = false) -> Bool {
         _ = self.removeGenericPassword(serviceName, account: account)
         
         //        let identifier = UIDevice.currentDevice().identifierForVendor!.UUIDString
-        return self.insertGenericPassword(serviceName, account: account, value: value, encoding: encoding)
+        return self.insertGenericPassword(serviceName, account: account, value: value, encoding: encoding,synchronizable: synchronizable)
     }
     public static func removeAllGenericPassword(_ serviceName:String) -> Bool {
         let delChainQuery = IPaKeyChainGenericPassword()
@@ -102,8 +103,10 @@ public class IPaKeyChainToken:NSObject {
     }
     public var serviceName:String
     public var name:String
-    public init(_ serviceName:String,name:String) {
+    public var synchronizable:Bool = false // indicate that token can be synchronizable to icloud
+    public init(_ serviceName:String,name:String,synchronizable:Bool = false) {
         self.serviceName = serviceName
         self.name = name
+        self.synchronizable = synchronizable
     }
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class IPaKeyChainCertificate:IPaKeyChainObject {
+public class IPaKeyChainCertificate:IPaKeyChainObject {
     override init () {
         super.init()
         self.keychainItemData[String(kSecClass)] = kSecClassCertificate as NSString
@@ -29,7 +29,7 @@ class IPaKeyChainCertificate:IPaKeyChainObject {
      kSecAttrSynchronizable
      */
     
-    var secAttrCerificateType:Int? {
+    public var secAttrCerificateType:Int? {
         get {
             return keychainItemData[String(kSecAttrCertificateType)] as? Int
         }
@@ -39,7 +39,7 @@ class IPaKeyChainCertificate:IPaKeyChainObject {
         }
         
     }
-    var secAttrCertificateEncoding:Int? {
+    public var secAttrCertificateEncoding:Int? {
         get {
             return keychainItemData[String(kSecAttrCertificateEncoding)] as? Int
         }
@@ -48,7 +48,7 @@ class IPaKeyChainCertificate:IPaKeyChainObject {
             keychainItemData[String(kSecAttrCertificateEncoding)] = newValue
         }
     }
-    var secAttrSubject:Data? {
+    public var secAttrSubject:Data? {
         get {
             return keychainItemData[String(kSecAttrSubject)] as? Data
         }
@@ -58,7 +58,7 @@ class IPaKeyChainCertificate:IPaKeyChainObject {
         }
         
     }
-    var secAttrIssuer:Data? {
+    public var secAttrIssuer:Data? {
         get {
             return keychainItemData[String(kSecAttrIssuer)] as? Data
         }
@@ -68,7 +68,7 @@ class IPaKeyChainCertificate:IPaKeyChainObject {
         }
         
     }
-    var secAttrSerialNumber:Data? {
+    public var secAttrSerialNumber:Data? {
         get {
             return keychainItemData[String(kSecAttrSerialNumber)] as? Data
         }
@@ -78,7 +78,7 @@ class IPaKeyChainCertificate:IPaKeyChainObject {
         }
         
     }
-    var secAttrSubjectKeyID:Data? {
+    public var secAttrSubjectKeyID:Data? {
         get {
             return keychainItemData[String(kSecAttrSubjectKeyID)] as? Data
         }
@@ -88,7 +88,7 @@ class IPaKeyChainCertificate:IPaKeyChainObject {
         }
         
     }
-    var secAttrPublicKeyHash:Data? {
+    public var secAttrPublicKeyHash:Data? {
         get {
             return keychainItemData[String(kSecAttrPublicKeyHash)] as? Data
         }

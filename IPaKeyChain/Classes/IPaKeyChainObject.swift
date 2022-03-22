@@ -76,17 +76,7 @@ public enum IPaSecAttrAccessible: RawRepresentable {
         }
     }
 }
-public enum IPaSecAttrSynchronizable {
-    case boolean(Bool)
-    case any
-    
-    public init?(rawValue: Bool) {
-        self = .boolean(rawValue)
-    }
-    public init?() {
-        self = .any
-    }
-}
+
 public enum IPaSecAttrKeyClass : RawRepresentable {
     case `public`,`private`,symmetric
     
@@ -319,28 +309,16 @@ open class IPaKeyChainObject :Sequence{
             keychainItemData[String(kSecAttrLabel)] = newValue as Any?
         }
     }
-    open var secAttrSynchronizable:IPaSecAttrSynchronizable? {
+    open var secAttrSynchronizable:Bool {
         get {
-            if let value = keychainItemData[String(kSecAttrSynchronizable)] as? Bool {
-                return IPaSecAttrSynchronizable(rawValue: value)
+            guard let value = keychainItemData[String(kSecAttrSynchronizable)] ,CFGetTypeID(value as CFTypeRef) == CFBooleanGetTypeID() else {
+                return false
             }
-            else if let string = keychainItemData[String(kSecMatchLimit)] as? String , string == String(kSecAttrSynchronizableAny) {
-                return IPaSecAttrSynchronizable.any
-            }
-            return .boolean(false)
+            return (value as! CFBoolean) == kCFBooleanTrue ? true : false
         }
         set {
-            guard let newValue = newValue else {
-                keychainItemData.removeValue(forKey: String(kSecAttrSynchronizable))
-                return
-            }
-            switch (newValue)
-            {
-            case .any:
-                keychainItemData[(kSecAttrSynchronizable as String)] = kSecAttrSynchronizableAny as NSString
-            case .boolean(let value):
-                keychainItemData[String(kSecAttrSynchronizable)] = value as Any?
-            }
+            keychainItemData[String(kSecAttrSynchronizable)] = newValue ? kCFBooleanTrue : kCFBooleanFalse
+            
         }
     }
     
