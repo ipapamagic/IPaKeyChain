@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'IPaKeyChain'
-  s.version          = '2.3'
+  s.version          = '2.4.0'
   s.summary          = 'simple KeyChain control.'
 
 # This description is used to generate tags and improve search results.
@@ -29,7 +29,7 @@ TODO: Add long description of the pod here.
   # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
 
 
-  s.source_files = 'IPaKeyChain/Classes/**/*'
+  s.source_files = 'Sources/IPaKeyChain/**/*'
   
   # s.resource_bundles = {
   #   'IPaKeyChain' => ['IPaKeyChain/Assets/*.png']
