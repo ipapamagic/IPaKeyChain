@@ -75,23 +75,22 @@ open class IPaKeyChain: NSObject {
         
     }
     public static func updateGenericPassword(_ serviceName:String,account:String,value:String,encoding:String.Encoding = .utf8,synchronizable:Bool = false,accessible:IPaSecAttrAccessible = .afterFirstUnlockThisDeviceOnly) -> Bool {
-        _ = self.removeGenericPassword(serviceName, account: account,accessible:accessible)
+        _ = self.removeGenericPassword(serviceName, account: account)
         
         //        let identifier = UIDevice.currentDevice().identifierForVendor!.UUIDString
         return self.insertGenericPassword(serviceName, account: account, value: value, encoding: encoding,synchronizable: synchronizable,accessible: accessible)
     }
-    public static func removeAllGenericPassword(_ serviceName:String,accessible:IPaSecAttrAccessible = .afterFirstUnlockThisDeviceOnly) -> Bool {
+    public static func removeAllGenericPassword(_ serviceName:String) -> Bool {
         let delChainQuery = IPaKeyChainGenericPassword()
         delChainQuery.secAttrService = serviceName
-        delChainQuery.secAttrAccessible = accessible
         return delChainQuery.secItemDelete() == errSecSuccess
     }
-    public static func removeGenericPassword(_ serviceName:String,account:String,accessible:IPaSecAttrAccessible = .afterFirstUnlockThisDeviceOnly) -> Bool {
+    public static func removeGenericPassword(_ serviceName:String,account:String) -> Bool {
         let delChainQuery = IPaKeyChainGenericPassword()
         delChainQuery.secAttrService = serviceName
         delChainQuery.secAttrAccount = account
-        delChainQuery.secAttrAccessible = accessible
-        return delChainQuery.secItemDelete() == errSecSuccess
+        let status = delChainQuery.secItemDelete()
+        return status  == errSecSuccess
     }
 }
 
